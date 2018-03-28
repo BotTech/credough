@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import com.timushev.sbt.updates.UpdatesPlugin.autoImport._
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
 import sbt.Keys._
 import sbt.{Def, _}
@@ -21,18 +22,31 @@ import xsbti.compile.CompileAnalysis
 
 object Common extends AutoPlugin {
 
-  val compileThenCheckStyle = taskKey[CompileAnalysis]("Compiles sources and then runs scalastyle on your code")
+  object autoImport extends Dependencies {
+    val compileThenCheckStyle = taskKey[CompileAnalysis]("Compiles sources and then runs scalastyle on your code")
+  }
 
-  override def trigger: PluginTrigger = allRequirements
+  import autoImport._
 
-  override def buildSettings: Seq[Def.Setting[_]] = Seq(
-    organizationName := "BotTech",
-    startYear := Some(2018),
-    licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
+  override val trigger: PluginTrigger = allRequirements
+
+  override val globalSettings: Seq[Def.Setting[_]] = Seq(
+    scalaVersion := Versions.scala
   )
 
-  override def projectSettings: Seq[Def.Setting[_]] = {
-    inConfig(Compile)(compileSettings) ++
+  override val buildSettings: Seq[Def.Setting[_]] = Seq(
+    licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")),
+    organizationName := "BotTech",
+    startYear := Some(2018)
+  )
+
+  override val projectSettings: Seq[Def.Setting[_]] = {
+    Seq(
+      dependencyUpdatesFailBuild := true,
+      scalacOptions := CompilerOptions.recommended,
+      Compile / console / scalacOptions --= CompilerOptions.badForConsole
+    ) ++
+      inConfig(Compile)(compileSettings) ++
       inConfig(Test)(compileSettings)
   }
 

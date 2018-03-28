@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package controllers
+import org.scalajs.dom.document
 
-import play.api.mvc.{AbstractController, Action, AnyContent, ControllerComponents}
+object HelloApp {
 
-class HelloController(controllerComponents: ControllerComponents)
-  extends AbstractController(controllerComponents) {
-
-  def hello: Action[AnyContent] = Action { request =>
-    Ok("hello")
+  def main(args: Array[String]): Unit = {
+    val _ = HelloComponent("Bob").renderIntoDOM(document.getElementById("root"))
   }
 }

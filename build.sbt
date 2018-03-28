@@ -14,15 +14,53 @@
  * limitations under the License.
  */
 
-import Dependencies._
-
 lazy val root = (project in file("."))
-  .aggregate(web)
+  .settings(name := "credough")
+  .aggregate(
+    ui,
+    server
+  )
 
-lazy val web = (project in file("web"))
-  .enablePlugins(Play)
+lazy val server = (project in file("server"))
+  .enablePlugins(
+    Play,
+    WebScalaJSBundlerPlugin
+  )
   .settings(
     libraryDependencies ++= Seq(
       macwire
-    )
+    ),
+    scalaJSProjects := Seq(ui),
+    pipelineStages in Assets := Seq(scalaJSPipeline),
+    pipelineStages := Seq(digest, gzip),
+    Compile / compile := (Compile / compile).dependsOn(scalaJSPipeline).value,
+    TwirlKeys.templateImports := Nil,
+    // TODO: Add CDN support.
+    npmAssets ++= NpmAssets.ofProject(ui) { nodeModules =>
+      // TODO: Is there a better way to refer to this?
+      (nodeModules / "bloomer").allPaths +++
+        (nodeModules / "bulma").allPaths +++
+        (nodeModules / "font-awesome").allPaths
+    }.value,
   )
+
+lazy val ui = (project in file("ui"))
+  .enablePlugins(
+    ScalaJSBundlerPlugin,
+    ScalaJSPlugin,
+    ScalaJSWeb
+  )
+  .settings(
+    scalaJSUseMainModuleInitializer := true,
+    libraryDependencies += scalaJSReact.value,
+    npmDependencies in Compile ++= Seq(
+      bloomer,
+      bulma,
+      fontAwesome,
+      react,
+      reactDom
+    ),
+    useYarn := true,
+    webpackBundlingMode := BundlingMode.LibraryOnly()
+  )
+

@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-// Play
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.12")
+import japgolly.scalajs.react._
+import japgolly.scalajs.react.vdom.html_<^._
 
-// Scalastyle
-addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
+object HelloComponent {
 
-// Wartremover
-addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.2.1")
+  case class Props(name: String)
 
-// Dependency Update Checker
-addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.4")
+  val Hello =
+    ScalaComponent.builder[Props]("Hello")
+      .render_P(props => <.div("Hello there ", props.name))
+      .build
 
-// Dependency Graph
-addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.0")
-
-// OWASP Dependency Check
-addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "0.2.2")
-
-// sbt Header
-addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.0.0")
+  def apply(name: String) = Hello(Props(name))
+}

@@ -15,13 +15,26 @@
  */
 
 import sbt._
+import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
 
-object Dependencies {
+trait Dependencies {
 
   object Versions {
 
-    val macwire = "2.3.0"
+    val bloomer = "0.6.3"
+    val bulma = "0.6.2"
+    val fontAwesome = "4.7.0"
+    val macwire = "2.3.1"
+    val react = "16.2.0"
+    val scala = "2.12.5"
+    val scalaJSReact = "1.2.0"
   }
 
+  val bloomer = "bloomer" -> Versions.bloomer
+  val bulma = "bulma" -> Versions.bulma
+  val fontAwesome = "font-awesome" -> Versions.fontAwesome
   val macwire = "com.softwaremill.macwire" %% "macros" % Versions.macwire % Provided
+  val react = "react" -> Versions.react
+  val reactDom = "react-dom" -> Versions.react
+  val scalaJSReact = Def.setting("com.github.japgolly.scalajs-react" %%% "core" % Versions.scalaJSReact)
 }

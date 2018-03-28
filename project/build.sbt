@@ -14,13 +14,5 @@
  * limitations under the License.
  */
 
-import play.api.{Application, ApplicationLoader, LoggerConfigurator}
-
-class CredoughApplicationLoader extends ApplicationLoader {
-  override def load(context: ApplicationLoader.Context): Application = {
-    LoggerConfigurator(context.environment.classLoader).foreach {
-      _.configure(context.environment, context.initialConfiguration, Map.empty)
-    }
-    new CredoughComponents(context).application
-  }
-}
+dependencyUpdatesFailBuild := true
+scalaVersion := "2.12.5"

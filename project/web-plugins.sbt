@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-import com.softwaremill.macwire._
-import controllers.HelloController
-import play.api.ApplicationLoader.Context
-import play.api.BuiltInComponentsFromContext
-import play.filters.HttpFiltersComponents
-import router.Routes
+// Scala.js
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.22")
 
-class CredoughComponents(context: Context)
-  extends BuiltInComponentsFromContext(context)
-    with HttpFiltersComponents {
+// Scala.js for sbt-web
+addSbtPlugin("com.vmunier" % "sbt-web-scalajs" % "1.0.6")
 
-  lazy val helloController: HelloController = wire[HelloController]
+// GZip
+addSbtPlugin("com.typesafe.sbt" % "sbt-gzip" % "1.0.2")
 
-  lazy val prefix: String = "/"
+// Digest
+addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.1.4")
 
-  lazy val router: Routes = wire[Routes]
-}
+// sbt-web Scala.js Bundler
+addSbtPlugin("ch.epfl.scala" % "sbt-web-scalajs-bundler" % "0.11.0")
