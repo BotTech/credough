@@ -22,11 +22,13 @@ import xsbti.compile.CompileAnalysis
 
 object Common extends AutoPlugin {
 
-  object autoImport extends Dependencies {
+  object Import extends Dependencies {
     val compileThenCheckStyle = taskKey[CompileAnalysis]("Compiles sources and then runs scalastyle on your code")
   }
 
-  import autoImport._
+  import Import._
+
+  val autoImport: Import.type = Import
 
   override val trigger: PluginTrigger = allRequirements
 
@@ -34,8 +36,10 @@ object Common extends AutoPlugin {
     scalaVersion := Versions.scala
   )
 
+  private val `apache-2.0` = ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
+
   override val buildSettings: Seq[Def.Setting[_]] = Seq(
-    licenses += ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")),
+    licenses += `apache-2.0`,
     organizationName := "BotTech",
     startYear := Some(2018)
   )
@@ -43,8 +47,7 @@ object Common extends AutoPlugin {
   override val projectSettings: Seq[Def.Setting[_]] = {
     Seq(
       dependencyUpdatesFailBuild := true,
-      scalacOptions := CompilerOptions.recommended,
-      Compile / console / scalacOptions --= CompilerOptions.badForConsole
+      scalastyleFailOnWarning := true
     ) ++
       inConfig(Compile)(compileSettings) ++
       inConfig(Test)(compileSettings)

@@ -14,11 +14,28 @@
  * limitations under the License.
  */
 
-import org.scalajs.dom.document
+import slinky.core.StatelessComponent
+import slinky.core.annotations.react
+import slinky.core.facade.ReactElement
+import slinky.web.html._
 
-object HelloApp {
+// TODO: CSS
+//@JSImport("resources/App.css", JSImport.Default)
+//@js.native
+//object AppCSS extends js.Object
 
-  def main(args: Array[String]): Unit = {
-    val _ = HelloComponent("Bob").renderIntoDOM(document.getElementById("root"))
+@react class HelloApp extends StatelessComponent {
+
+  type Props = Unit
+
+  def render(): ReactElement = {
+    div(className := "App")(
+      header(className := "App-header")(
+        h1(className := "App-title")("Welcome to React (with Scala.js!)")
+      ),
+      p(className := "App-intro")(
+        "To get started, edit ", code("HelloApp.scala"), " and save to reload."
+      )
+    )
   }
 }

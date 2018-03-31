@@ -24,43 +24,16 @@ lazy val root = (project in file("."))
 lazy val server = (project in file("server"))
   .enablePlugins(
     Play,
-    WebScalaJSBundlerPlugin
+    WebBackend
   )
   .settings(
     libraryDependencies ++= Seq(
       macwire
     ),
-    scalaJSProjects := Seq(ui),
-    pipelineStages in Assets := Seq(scalaJSPipeline),
-    pipelineStages := Seq(digest, gzip),
-    Compile / compile := (Compile / compile).dependsOn(scalaJSPipeline).value,
-    TwirlKeys.templateImports := Nil,
-    // TODO: Add CDN support.
-    npmAssets ++= NpmAssets.ofProject(ui) { nodeModules =>
-      // TODO: Is there a better way to refer to this?
-      (nodeModules / "bloomer").allPaths +++
-        (nodeModules / "bulma").allPaths +++
-        (nodeModules / "font-awesome").allPaths
-    }.value,
+    TwirlKeys.templateImports := Nil
   )
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(
-    ScalaJSBundlerPlugin,
-    ScalaJSPlugin,
-    ScalaJSWeb
+    WebFrontend
   )
-  .settings(
-    scalaJSUseMainModuleInitializer := true,
-    libraryDependencies += scalaJSReact.value,
-    npmDependencies in Compile ++= Seq(
-      bloomer,
-      bulma,
-      fontAwesome,
-      react,
-      reactDom
-    ),
-    useYarn := true,
-    webpackBundlingMode := BundlingMode.LibraryOnly()
-  )
-

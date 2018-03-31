@@ -15,4 +15,4 @@
  */
 
 dependencyUpdatesFailBuild := true
-scalaVersion := "2.12.5"
+scalaVersion := "2.12.4"

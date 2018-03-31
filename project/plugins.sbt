@@ -34,3 +34,6 @@ addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "0.2.2")
 
 // sbt Header
 addSbtPlugin("de.heikoseeberger" % "sbt-header" % "5.0.0")
+
+// Recommended Scalac Flags
+addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.3")
