@@ -18,7 +18,6 @@ lazy val ui = (project in file("ui"))
   .enablePlugins(ScalaJSPlugin)
   .settings(
     scalaVersion := "2.12.6",
-    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.4.1",
+    libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.4.3",
     addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full)
   )
