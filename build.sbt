@@ -16,6 +16,12 @@
 
 import Dependencies._
 
+scalaVersion in Global := Versions.scala
+
+licenses in ThisBuild += "Apache-2.0" -> new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")
+organizationName in ThisBuild := "BotTech"
+startYear in ThisBuild := Some(2018)
+
 lazy val root = (project in file("."))
   .settings(name := "credough")
   .aggregate(
@@ -50,7 +56,6 @@ lazy val ui = (project in file("ui"))
     ScalaJSWeb
   )
   .settings(
-    graphQLTypesNamespace := "nz.co.bottech.credough.graphql",
     libraryDependencies ++= ScalaJS.dependencies.value,
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalaJSUseMainModuleInitializer := true,
@@ -62,6 +67,5 @@ def bundlerSettings: Seq[Def.Setting[_]] = Seq(
   useYarn := true,
   webpackBundlingMode := BundlingMode.LibraryOnly(),
   npmDependencies ++= npm.apolloClientCommonJSModules,
-  npmDevDependencies += npm.apollo,
-  graphQLApolloCLI := npmUpdate.value / "node_modules" / ".bin" / "apollo"
+  npmDevDependencies += npm.apollo
 )
