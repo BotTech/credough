@@ -33,8 +33,6 @@ lazy val ui = (project in file("ui"))
   )
   .settings(
     libraryDependencies ++= Seq(
-      "com.apollographql" %%% "apollo-scalajs-core" % "0.4.0",
-      "com.apollographql" %%% "apollo-scalajs-react" % "0.4.0",
       "me.shadaj" %%% "slinky-hot" % "0.4.1",
       "me.shadaj" %%% "slinky-web" % "0.4.1"
     ),
@@ -52,10 +50,6 @@ def bundlerSettings: Seq[Def.Setting[_]] = Seq(
     "react" -> "16.2.0",
     "react-dom" -> "16.2.0",
     "react-proxy" -> "1.1.8",
-    "apollo-boost" -> "0.1.12",
-    "react-apollo" -> "2.1.9",
-    "graphql" -> "0.13.2",
-    "graphql-tag" -> "2.9.2"
-  ),
-  npmDevDependencies += "apollo" -> "1.6.0"
+    "react-apollo" -> "2.1.9"
+  )
 )
