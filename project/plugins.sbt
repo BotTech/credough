@@ -16,6 +16,3 @@
 
 // Scala.js
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.24")
-
-// sbt-web Scala.js Bundler
-addSbtPlugin("ch.epfl.scala" % "sbt-web-scalajs-bundler" % "0.13.1")

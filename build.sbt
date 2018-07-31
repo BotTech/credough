@@ -23,7 +23,6 @@ lazy val root = (project in file("."))
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(
-    ScalaJSBundlerPlugin,
     ScalaJSPlugin
   )
   .settings(
@@ -31,9 +30,5 @@ lazy val ui = (project in file("ui"))
       "me.shadaj" %%% "slinky-web" % "0.4.1"
     ),
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full),
-    npmDependencies in Compile ++= Seq(
-      "react" -> "16.2.0",
-      "react-dom" -> "16.2.0"
-    )
+    addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full)
   )
