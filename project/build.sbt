@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-dependencyUpdatesFailBuild := true
-
 scalacOptions -= "-Ywarn-unused:imports"
 
 scalaVersion := "2.12.6"

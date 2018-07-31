@@ -25,29 +25,8 @@ startYear in ThisBuild := Some(2018)
 lazy val root = (project in file("."))
   .settings(name := "credough")
   .aggregate(
-    ui,
-    server
+    ui
   )
-
-lazy val server = (project in file("server"))
-  .enablePlugins(
-    Play,
-    WebScalaJSBundlerPlugin,
-    GraphQLSchemaPlugin
-  )
-  .settings(
-    libraryDependencies ++= Seq(
-      macwire,
-      sangria,
-      sangriaPlayJson
-    ),
-    TwirlKeys.templateImports := Nil,
-    graphqlSchemaSnippet := "models.schema",
-    scalaJSProjects += ui,
-    Assets / pipelineStages ++= Seq(scalaJSPipeline),
-    Compile / compile := (Compile / compile).dependsOn(scalaJSPipeline).value
-  )
-
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(

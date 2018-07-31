@@ -25,6 +25,3 @@ addSbtPlugin("com.vmunier" % "sbt-web-scalajs" % "1.0.7")
 
 // sbt-web Scala.js Bundler
 addSbtPlugin("ch.epfl.scala" % "sbt-web-scalajs-bundler" % "0.13.1")
-
-// GraphQL schema
-addSbtPlugin("rocks.muki" % "sbt-graphql" % "0.5.0")
