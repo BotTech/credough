@@ -14,11 +14,14 @@
  * limitations under the License.
  */
 
+// Play
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.17")
+
 // Scala.js
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.22")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.24")
 
 // Scala.js for sbt-web
-addSbtPlugin("com.vmunier" % "sbt-web-scalajs" % "1.0.6")
+addSbtPlugin("com.vmunier" % "sbt-web-scalajs" % "1.0.7")
 
 // GZip
 addSbtPlugin("com.typesafe.sbt" % "sbt-gzip" % "1.0.2")
@@ -27,4 +30,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-gzip" % "1.0.2")
 addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.1.4")
 
 // sbt-web Scala.js Bundler
-addSbtPlugin("ch.epfl.scala" % "sbt-web-scalajs-bundler" % "0.11.0")
+addSbtPlugin("ch.epfl.scala" % "sbt-web-scalajs-bundler" % "0.13.1")
+
+// GraphQL schema
+addSbtPlugin("rocks.muki" % "sbt-graphql" % "0.5.0")

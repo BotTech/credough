@@ -14,36 +14,25 @@
  * limitations under the License.
  */
 
-import org.scalajs.dom
-import org.scalajs.dom.Element
+import slinky.core.Component
 import slinky.hot
-import slinky.web.ReactDOM
 
 import scala.scalajs.LinkingInfo
+import scala.scalajs.js.annotation.JSExportTopLevel
 
 // TODO: Import some CSS
-//@JSImport("resources/index.css", JSImport.Default)
-//@js.native
-//object IndexCSS extends js.Object
 
-object Main {
+object Main extends ReactGraphQLApp {
 
+  override def uri: String = "TODO/graphql"
+
+  override def app: Component = HelloApp(HelloApp.Props)
+
+  @JSExportTopLevel("entrypoint.main")
   def main(args: Array[String]): Unit = {
     if (LinkingInfo.developmentMode) {
       hot.initialize()
     }
-    val container = root().getOrElse(createRoot())
-    val _ = ReactDOM.render(HelloApp(), container)
-  }
-
-  private def root(): Option[Element] = {
-    Option(dom.document.getElementById("root"))
-  }
-
-  private def createRoot(): Element = {
-    val elem = dom.document.createElement("div")
-    elem.id = "root"
-    dom.document.body.appendChild(elem)
-    elem
+    val _  = renderApp()
   }
 }

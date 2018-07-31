@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import Dependencies.Npm.CommonJSModule
+import ApolloGraphQL.Keys._
 import Dependencies._
 import org.scalajs.sbtplugin.ScalaJSPlugin
 import org.scalajs.sbtplugin.ScalaJSPlugin.autoImport._
@@ -27,36 +27,39 @@ import webscalajs.ScalaJSWeb
 object WebFrontend extends AutoPlugin {
 
   trait Keys {
-    val npmCommonJSDependencies = settingKey[Seq[CommonJSModule]]("NPM CommonJS dependencies (modules that your program uses)")
+
     val npmAssetDependencies = settingKey[Seq[Npm.Assets]]("NPM asset dependencies (assets that your program uses)")
   }
 
-  object Import extends Keys
+  object Keys extends Keys
 
-  import Import._
+  import Keys._
 
-  val autoImport: Import.type = Import
+  val autoImport: Keys = Keys
 
   override val requires: Plugins = ScalaJSBundlerPlugin && ScalaJSPlugin && ScalaJSWeb
 
   override val projectSettings: Seq[Def.Setting[_]] = Seq(
     libraryDependencies ++= ScalaJS.dependencies.value,
-    npmCommonJSDependencies := npm.commonJSModules,
-    npmAssetDependencies := npm.assets,
     // TODO: Remove this when we upgrade to version 1.x
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     // TODO: Is this the best way?
     scalaJSUseMainModuleInitializer := true,
     // Enable macro paradise for Slinky macro annotations.
     addCompilerPlugin(macroParadise)
-  ) ++ bundlerSettings
+  ) ++ inConfig(Compile)(bundlerSettings)
 
   def bundlerSettings: Seq[Def.Setting[_]] = Seq(
-    // Client dependencies from npm.
-    npmDependencies in Compile ++= npmCommonJSDependencies.value ++ npmAssetDependencies.value,
+    npmDependencies ++= npm.commonJSModules,
+    npmAssetDependencies := npm.assets,
+    npmDependencies ++= npmAssetDependencies.value,
     // Use Yarn instead of npm.
     useYarn := true,
     // Process only the entrypoints via webpack and produce a library of dependencies.
-    webpackBundlingMode := BundlingMode.LibraryOnly()
+    webpackBundlingMode := BundlingMode.LibraryOnly(),
+    // GraphQL
+    npmDependencies ++= npm.apolloClientCommonJSModules,
+    npmDevDependencies += npm.apollo,
+    graphQLApolloCLI := npmUpdate.value / "node_modules" / ".bin" / "apollo"
   )
 }

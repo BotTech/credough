@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-import WebFrontend.Import._
+import WebFrontend.Keys._
 import com.typesafe.sbt.digest.Import._
 import com.typesafe.sbt.gzip.Import._
 import com.typesafe.sbt.web.Import._
 import com.typesafe.sbt.web.PathMapping
+import rocks.muki.graphql.GraphQLSchemaPlugin
 import sbt.Keys._
+import sbt._
 import sbt.internal.LoadedBuildUnit
-import sbt.{Def, _}
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport._
 import scalajsbundler.sbtplugin.WebScalaJSBundlerPlugin
 import scalajsbundler.sbtplugin.WebScalaJSBundlerPlugin.autoImport._
@@ -30,24 +31,24 @@ import webscalajs.WebScalaJS.autoImport._
 object WebBackend extends AutoPlugin {
 
   trait Keys {
+
     // TODO: We shouldn't need this but scalaJSProjects has the wrong type
     val scalaJSProjectRefs = Def.settingKey[Seq[ProjectReference]]("Scala.js projects attached to the sbt-web project")
   }
 
-  object Import extends Keys
+  object Keys extends Keys
 
-  import Import._
+  import Keys._
 
-  val autoImport: Import.type = Import
+  val autoImport: Keys = Keys
 
-  override val requires: Plugins = WebScalaJSBundlerPlugin
+  override val requires: Plugins = WebScalaJSBundlerPlugin && GraphQLSchemaPlugin
 
   override val projectSettings: Seq[Def.Setting[_]] = Seq(
-    Assets / pipelineStages := Seq(scalaJSPipeline),
-    pipelineStages := Seq(digest, gzip),
+    Assets / pipelineStages ++= Seq(scalaJSPipeline),
+    pipelineStages ++= Seq(digest, gzip),
     Compile / compile := (Compile / compile).dependsOn(scalaJSPipeline).value,
     scalaJSProjectRefs := frontendProjectsSetting.value,
-    // TODO: Does this work?
     scalaJSProjects := scalaJSProjectsSetting.value,
     npmAssets ++= frontendNpmAssetsTask.value
   )

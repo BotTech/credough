@@ -14,28 +14,40 @@
  * limitations under the License.
  */
 
-import slinky.core.StatelessComponent
+import slinky.core.{StatelessComponent, StatelessComponentWrapper}
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
-import slinky.web.html._
 
-// TODO: CSS
-//@JSImport("resources/App.css", JSImport.Default)
-//@js.native
-//object AppCSS extends js.Object
+import scala.scalajs.js
 
-@react class HelloApp extends StatelessComponent {
+//object HelloApp extends StatelessComponentWrapper {
+//
+//  type Props = Unit
+//
+//  class Def(jsProps: js.Object) extends Definition(jsProps) {
+//
+//    // TODO: Add GraphQL thingy here
+//    override def render(): ReactElement = {
+//      div(className := "App")(
+//        header(className := "App-header")(
+//          h1(className := "App-title")("Welcome to React (with Scala.js!)")
+//        ),
+//        p(className := "App-intro")(
+//          "To get started, edit ", code("HelloApp.scala"), " and save to reload."
+//        )
+//      )
+//    }
+//  }
+//
+//}
+
+object HelloApp extends StatelessComponentWrapper {
 
   type Props = Unit
 
-  def render(): ReactElement = {
-    div(className := "App")(
-      header(className := "App-header")(
-        h1(className := "App-title")("Welcome to React (with Scala.js!)")
-      ),
-      p(className := "App-intro")(
-        "To get started, edit ", code("HelloApp.scala"), " and save to reload."
-      )
-    )
+  class Def(jsProps: js.Object) extends Definition(jsProps) {
+    def render: ReactElement = {
+      throw new Exception("BOO")
+    }
   }
 }

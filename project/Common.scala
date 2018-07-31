@@ -18,6 +18,7 @@ import com.timushev.sbt.updates.UpdatesPlugin.autoImport._
 import org.scalastyle.sbt.ScalastylePlugin.autoImport._
 import sbt.Keys._
 import sbt.{Def, _}
+import wartremover._
 import xsbti.compile.CompileAnalysis
 
 object Common extends AutoPlugin {
@@ -47,7 +48,9 @@ object Common extends AutoPlugin {
   override val projectSettings: Seq[Def.Setting[_]] = {
     Seq(
       dependencyUpdatesFailBuild := true,
-      scalastyleFailOnWarning := true
+      scalastyleFailOnWarning := true,
+      wartremoverErrors ++= Warts.unsafe,
+      Compile / console / scalacOptions := (console / scalacOptions).value.filterNot(_.contains("wartremover"))
     ) ++
       inConfig(Compile)(compileSettings) ++
       inConfig(Test)(compileSettings)

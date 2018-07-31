@@ -15,4 +15,7 @@
  */
 
 dependencyUpdatesFailBuild := true
-scalaVersion := "2.12.4"
+
+scalacOptions -= "-Ywarn-unused:imports"
+
+scalaVersion := "2.12.6"
