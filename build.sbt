@@ -16,12 +16,7 @@
 
 scalaVersion in Global := "2.12.6"
 
-licenses in ThisBuild += "Apache-2.0" -> new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")
-organizationName in ThisBuild := "BotTech"
-startYear in ThisBuild := Some(2018)
-
 lazy val root = (project in file("."))
-  .settings(name := "credough")
   .aggregate(
     ui
   )
@@ -33,23 +28,12 @@ lazy val ui = (project in file("ui"))
   )
   .settings(
     libraryDependencies ++= Seq(
-      "me.shadaj" %%% "slinky-hot" % "0.4.1",
       "me.shadaj" %%% "slinky-web" % "0.4.1"
     ),
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    scalaJSUseMainModuleInitializer := true,
-    addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full)
-  ).settings(inConfig(Compile)(bundlerSettings))
-
-def bundlerSettings: Seq[Def.Setting[_]] = Seq(
-  useYarn := true,
-  webpackBundlingMode := BundlingMode.LibraryOnly(),
-  npmDependencies ++= Seq(
-    "bloomer" -> "0.6.3",
-    "bulma" -> "0.6.2",
-    "react" -> "16.2.0",
-    "react-dom" -> "16.2.0",
-    "react-proxy" -> "1.1.8",
-    "react-apollo" -> "2.1.9"
+    addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full),
+    npmDependencies in Compile ++= Seq(
+      "react" -> "16.2.0",
+      "react-dom" -> "16.2.0"
+    )
   )
-)
