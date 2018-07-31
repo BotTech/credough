@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-import Dependencies._
-
-scalaVersion in Global := Versions.scala
+scalaVersion in Global := "2.12.6"
 
 licenses in ThisBuild += "Apache-2.0" -> new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")
 organizationName in ThisBuild := "BotTech"
@@ -35,16 +33,30 @@ lazy val ui = (project in file("ui"))
     ScalaJSWeb
   )
   .settings(
-    libraryDependencies ++= ScalaJS.dependencies.value,
+    libraryDependencies ++= Seq(
+      "com.apollographql" %%% "apollo-scalajs-core" % "0.4.0",
+      "com.apollographql" %%% "apollo-scalajs-react" % "0.4.0",
+      "me.shadaj" %%% "slinky-hot" % "0.4.1",
+      "me.shadaj" %%% "slinky-web" % "0.4.1"
+    ),
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalaJSUseMainModuleInitializer := true,
-    addCompilerPlugin(macroParadise)
+    addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full)
   ).settings(inConfig(Compile)(bundlerSettings))
 
 def bundlerSettings: Seq[Def.Setting[_]] = Seq(
-  npmDependencies ++= npm.commonJSModules,
   useYarn := true,
   webpackBundlingMode := BundlingMode.LibraryOnly(),
-  npmDependencies ++= npm.apolloClientCommonJSModules,
-  npmDevDependencies += npm.apollo
+  npmDependencies ++= Seq(
+    "bloomer" -> "0.6.3",
+    "bulma" -> "0.6.2",
+    "react" -> "16.2.0",
+    "react-dom" -> "16.2.0",
+    "react-proxy" -> "1.1.8",
+    "apollo-boost" -> "0.1.12",
+    "react-apollo" -> "2.1.9",
+    "graphql" -> "0.13.2",
+    "graphql-tag" -> "2.9.2"
+  ),
+  npmDevDependencies += "apollo" -> "1.6.0"
 )
