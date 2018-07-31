@@ -15,6 +15,7 @@
  */
 
 //import com.typesafe.sbt.web.PathMapping
+import Dependencies._
 
 lazy val root = (project in file("."))
   .settings(name := "credough")
