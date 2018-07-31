@@ -29,7 +29,7 @@ trait Dependencies {
     val fontAwesome = "4.7.0"
     val graphQL = "0.13.2"
     val graphQLTag = "2.9.2"
-    val macroParadise = "2.1.1"
+    val macroParadise = "3.0.0-M11"
     val macwire = "2.3.1"
     val react = "16.2.0"
     val reactApollo = "2.1.9"
@@ -38,9 +38,7 @@ trait Dependencies {
     val sangria = "1.4.1"
     val sangriaPlayJson = "1.0.4"
     val scala = "2.12.6"
-    // TODO: This must use the same version as https://github.com/apollographql/react-apollo-scalajs/blob/master/react/build.sbt
-    // TODO: Submit PR to apollo graphql to update this
-    val slinky = "0.4.1"
+    val slinky = "0.4.3"
   }
 
   object ScalaJS {
@@ -61,10 +59,8 @@ trait Dependencies {
     }
   }
 
-  val macroParadise = "org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full
-//  val macroParadise = "org.scalamacros" % "paradise" % Versions.macroParadise cross CrossVersion.full
-
-  // Do we really need this?
+  val macroParadise = "org.scalameta" % "paradise" % Versions.macroParadise cross CrossVersion.full
+  // TODO: Do we really need this?
   val macwire = "com.softwaremill.macwire" %% "macros" % Versions.macwire % Provided
   val sangria = "org.sangria-graphql" %% "sangria" % Versions.sangria
   val sangriaPlayJson = "org.sangria-graphql" %% "sangria-play-json" % Versions.sangriaPlayJson
@@ -94,6 +90,7 @@ trait Dependencies {
     val reactDom = CommonJSModule("react-dom", Versions.react)
     val reactProxy = CommonJSModule("react-proxy", Versions.reactProxy)
 
+    // TODO: These should be in the GraphQL plugin.
     val apolloClientCommonJSModules = Seq(
       apolloBoost,
       reactApollo,

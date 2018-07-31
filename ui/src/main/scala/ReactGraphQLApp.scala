@@ -1,9 +1,24 @@
+/*
+ * Copyright 2018 BotTech
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 import com.apollographql.scalajs.ApolloBoostClient
 import com.apollographql.scalajs.react.ApolloProvider
 import org.scalajs.dom
 import org.scalajs.dom.Element
-import slinky.core.Component
-import slinky.core.facade.ReactInstance
+import slinky.core.facade.{ReactElement, ReactInstance}
 import slinky.web.ReactDOM
 
 trait ReactGraphQLApp {
@@ -12,14 +27,12 @@ trait ReactGraphQLApp {
 
   protected def uri: String
 
-  protected def app: Component
+  protected def app: ReactElement
 
   protected def renderApp(): ReactInstance = {
     val container = root().getOrElse(createRoot())
-    // TODO: Explore other client options
     val client = ApolloBoostClient(uri)
-    // FIXME: Is it ok to render the component here and then again after being wrapped?
-    val wrapped = ApolloProvider(client)(app.render())
+    val wrapped = ApolloProvider(client)(app)
     ReactDOM.render(wrapped, container)
   }
 
@@ -28,7 +41,6 @@ trait ReactGraphQLApp {
   }
 
   private def createRoot(): Element = {
-    // TODO: Is there a better way to create dom elements?
     val elem = dom.document.createElement("div")
     elem.id = rootElementID
     val _ = dom.document.body.appendChild(elem)

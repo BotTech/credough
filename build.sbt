@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-//import com.typesafe.sbt.web.PathMapping
-
 lazy val root = (project in file("."))
   .settings(name := "credough")
   .aggregate(
     ui,
     server
   )
-
-//val foo = taskKey[Classpath]("Foo")
-//val foo2 = taskKey[File]("Foo")
-//val foo3 = taskKey[Seq[PathMapping]]("Foo")
-//val foo4 = settingKey[File]("Foo")
 
 lazy val server = (project in file("server"))
   .enablePlugins(
@@ -40,14 +33,8 @@ lazy val server = (project in file("server"))
       sangriaPlayJson
     ),
     TwirlKeys.templateImports := Nil,
-    graphqlSchemaSnippet := "models.schema",
-//    foo := (Assets / exportedProducts).value,
-//    foo2 := (Assets / WebKeys.exportedAssets).value,
-//    foo3 := (Assets / WebKeys.exportedMappings).value,
-//    foo4 := (Assets / classDirectory).value,
-    scalaJSProjects += ui
+    graphqlSchemaSnippet := "models.schema"
   )
-
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(

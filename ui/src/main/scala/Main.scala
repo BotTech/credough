@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
-import slinky.core.Component
+import slinky.core.facade.ReactElement
 import slinky.hot
 
 import scala.scalajs.LinkingInfo
 import scala.scalajs.js.annotation.JSExportTopLevel
 
-// TODO: Import some CSS
-
 object Main extends ReactGraphQLApp {
 
   override def uri: String = "TODO/graphql"
 
-  override def app: Component = HelloApp(HelloApp.Props)
+  override def app: ReactElement = HelloApp()
 
   @JSExportTopLevel("entrypoint.main")
   def main(args: Array[String]): Unit = {

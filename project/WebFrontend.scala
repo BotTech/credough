@@ -39,27 +39,31 @@ object WebFrontend extends AutoPlugin {
 
   override val requires: Plugins = ScalaJSBundlerPlugin && ScalaJSPlugin && ScalaJSWeb
 
+  val ignoreWartremoverOptions = Set(
+    "-P:wartremover:traverser:org.wartremover.warts.AsInstanceOf",
+    "-P:wartremover:traverser:org.wartremover.warts.NonUnitStatements",
+    "-P:wartremover:traverser:org.wartremover.warts.Null"
+  )
+
   override val projectSettings: Seq[Def.Setting[_]] = Seq(
     libraryDependencies ++= ScalaJS.dependencies.value,
-    // TODO: Remove this when we upgrade to version 1.x
+    // TODO: Remove this when we upgrade to Scala.js 1.x
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
+    scalacOptions := scalacOptions.value.filterNot(ignoreWartremoverOptions.contains),
     // TODO: Is this the best way?
     scalaJSUseMainModuleInitializer := true,
-    // Enable macro paradise for Slinky macro annotations.
-    addCompilerPlugin(macroParadise)
+    addCompilerPlugin(macroParadise),
+    npmAssetDependencies := npm.assets
   ) ++ inConfig(Compile)(bundlerSettings)
 
   def bundlerSettings: Seq[Def.Setting[_]] = Seq(
     npmDependencies ++= npm.commonJSModules,
-    npmAssetDependencies := npm.assets,
     npmDependencies ++= npmAssetDependencies.value,
-    // Use Yarn instead of npm.
+    npmDependencies ++= npm.apolloClientCommonJSModules,
+    npmDevDependencies += npm.apollo,
     useYarn := true,
     // Process only the entrypoints via webpack and produce a library of dependencies.
     webpackBundlingMode := BundlingMode.LibraryOnly(),
-    // GraphQL
-    npmDependencies ++= npm.apolloClientCommonJSModules,
-    npmDevDependencies += npm.apollo,
     graphQLApolloCLI := npmUpdate.value / "node_modules" / ".bin" / "apollo"
   )
 }

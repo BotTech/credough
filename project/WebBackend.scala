@@ -32,7 +32,7 @@ object WebBackend extends AutoPlugin {
 
   trait Keys {
 
-    // TODO: We shouldn't need this but scalaJSProjects has the wrong type
+    // We shouldn't need this but scalaJSProjects has the wrong type
     val scalaJSProjectRefs = Def.settingKey[Seq[ProjectReference]]("Scala.js projects attached to the sbt-web project")
   }
 

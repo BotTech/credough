@@ -17,14 +17,11 @@
 // Dependency Update Checker
 addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.4")
 
-// Dependency Graph
-addSbtPlugin("net.virtual-void" % "sbt-dependency-graph" % "0.9.0")
-
 // OWASP Dependency Check
 addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "0.2.2")
 
 // Scala.js
-addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.22")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.24")
 
 // Recommended Scalac Flags
 addSbtPlugin("io.github.davidgregory084" % "sbt-tpolecat" % "0.1.3")

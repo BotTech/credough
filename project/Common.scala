@@ -24,6 +24,7 @@ import xsbti.compile.CompileAnalysis
 object Common extends AutoPlugin {
 
   object Import extends Dependencies {
+
     val compileThenCheckStyle = taskKey[CompileAnalysis]("Compiles sources and then runs scalastyle on your code")
   }
 
@@ -37,12 +38,10 @@ object Common extends AutoPlugin {
     scalaVersion := Versions.scala
   )
 
-  private val `apache-2.0` = ("Apache-2.0", new URL("https://www.apache.org/licenses/LICENSE-2.0.txt"))
-
   override val buildSettings: Seq[Def.Setting[_]] = Seq(
-    licenses += `apache-2.0`,
+    licenses += ("Apache-2.0" -> new URL("https://www.apache.org/licenses/LICENSE-2.0.txt")),
     organizationName := "BotTech",
-    startYear := Some(2018)
+    startYear := Some(2018) // scalastyle:ignore
   )
 
   override val projectSettings: Seq[Def.Setting[_]] = {
