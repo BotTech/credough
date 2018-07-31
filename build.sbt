@@ -14,21 +14,11 @@
  * limitations under the License.
  */
 
-scalaVersion in Global := "2.12.6"
-
-lazy val root = (project in file("."))
-  .aggregate(
-    ui
-  )
-
 lazy val ui = (project in file("ui"))
-  .enablePlugins(
-    ScalaJSPlugin
-  )
+  .enablePlugins(ScalaJSPlugin)
   .settings(
-    libraryDependencies ++= Seq(
-      "me.shadaj" %%% "slinky-web" % "0.4.1"
-    ),
+    scalaVersion := "2.12.6",
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
+    libraryDependencies += "me.shadaj" %%% "slinky-web" % "0.4.1",
     addCompilerPlugin("org.scalameta" % "paradise" % "3.0.0-M11" cross CrossVersion.full)
   )
