@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-// TODO: It won't let me remove this...
-// Play
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.6.17")
-
 // Scala.js
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % "0.6.24")
 

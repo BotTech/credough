@@ -29,8 +29,7 @@ lazy val root = (project in file("."))
 lazy val ui = (project in file("ui"))
   .enablePlugins(
     ScalaJSBundlerPlugin,
-    ScalaJSPlugin,
-    ScalaJSWeb
+    ScalaJSPlugin
   )
   .settings(
     libraryDependencies ++= Seq(
