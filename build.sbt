@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-//import com.typesafe.sbt.web.PathMapping
 import Dependencies._
 
 lazy val root = (project in file("."))
@@ -24,15 +23,11 @@ lazy val root = (project in file("."))
     server
   )
 
-//val foo = taskKey[Classpath]("Foo")
-//val foo2 = taskKey[File]("Foo")
-//val foo3 = taskKey[Seq[PathMapping]]("Foo")
-//val foo4 = settingKey[File]("Foo")
-
 lazy val server = (project in file("server"))
   .enablePlugins(
     Play,
-    WebBackend
+    WebScalaJSBundlerPlugin,
+    GraphQLSchemaPlugin
   )
   .settings(
     libraryDependencies ++= Seq(
@@ -42,18 +37,31 @@ lazy val server = (project in file("server"))
     ),
     TwirlKeys.templateImports := Nil,
     graphqlSchemaSnippet := "models.schema",
-//    foo := (Assets / exportedProducts).value,
-//    foo2 := (Assets / WebKeys.exportedAssets).value,
-//    foo3 := (Assets / WebKeys.exportedMappings).value,
-//    foo4 := (Assets / classDirectory).value,
-    scalaJSProjects += ui
+    scalaJSProjects += ui,
+    Assets / pipelineStages ++= Seq(scalaJSPipeline),
+    Compile / compile := (Compile / compile).dependsOn(scalaJSPipeline).value
   )
 
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(
-    WebFrontend
+    ScalaJSBundlerPlugin,
+    ScalaJSPlugin,
+    ScalaJSWeb
   )
   .settings(
-    graphQLTypesNamespace := "nz.co.bottech.credough.graphql"
-  )
+    graphQLTypesNamespace := "nz.co.bottech.credough.graphql",
+    libraryDependencies ++= ScalaJS.dependencies.value,
+    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
+    scalaJSUseMainModuleInitializer := true,
+    addCompilerPlugin(macroParadise)
+  ).settings(inConfig(Compile)(bundlerSettings))
+
+def bundlerSettings: Seq[Def.Setting[_]] = Seq(
+  npmDependencies ++= npm.commonJSModules,
+  useYarn := true,
+  webpackBundlingMode := BundlingMode.LibraryOnly(),
+  npmDependencies ++= npm.apolloClientCommonJSModules,
+  npmDevDependencies += npm.apollo,
+  graphQLApolloCLI := npmUpdate.value / "node_modules" / ".bin" / "apollo"
+)
