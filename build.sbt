@@ -5,7 +5,7 @@ import sbt.internal.LoadedBuildUnit
 logLevel := Level.Debug
 
 val scalaJSProjectRefs = Def.settingKey[Seq[ProjectReference]]("Scala.js projects attached to the sbt-web project")
-val npmAssetDependencies = settingKey[Seq[Dependencies.Npm.Assets]]("NPM asset dependencies (assets that your program uses)")
+val npmAssetDependencies = settingKey[Seq[String]]("NPM asset dependencies (assets that your program uses)")
 
 lazy val root = (project in file("."))
   .aggregate(
@@ -97,7 +97,7 @@ def projectAssets(stateTask: Task[State], scope: Scope): Task[Seq[(File, String)
   } yield {
     val nodeModulesDir = nodeInstallDir / "node_modules"
     val assets = assetDependencies.foldLeft(PathFinder.empty) {
-      case (pathFinder, asset) => pathFinder +++ asset.assets(nodeModulesDir / asset.name)
+      case (pathFinder, _) => pathFinder
     }
     assets.pair(Path.relativeTo(nodeModulesDir))
   }
