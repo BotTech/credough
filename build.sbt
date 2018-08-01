@@ -14,7 +14,6 @@ lazy val root = (project in file("."))
 
 lazy val server = (project in file("server"))
   .enablePlugins(
-    PlayScala,
     WebScalaJSBundlerPlugin
   ).settings(
     scalaJSProjectRefs := Seq(ui),
