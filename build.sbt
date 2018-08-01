@@ -19,8 +19,8 @@ lazy val server = (project in file("server"))
     PlayScala,
     WebScalaJSBundlerPlugin
   ).settings(
-    scalaJSProjectRefs := frontendProjectsSetting.value,
-    scalaJSProjects := scalaJSProjectsSetting.value,
+    scalaJSProjectRefs := Seq(ui),
+    scalaJSProjects := Seq(ui),
     npmAssets ++= frontendNpmAssetsTask.value
   )
 
@@ -28,31 +28,11 @@ lazy val ui = (project in file("ui"))
   .enablePlugins(
     ScalaJSBundlerPlugin
   ).settings(
-    graphQLApolloCLI in Compile := (npmUpdate in Compile).value,
     sourceGenerators in Compile += Def.task {
-      val _ = (graphQLApolloCLI in Compile).value.getPath
+      val _ = (npmUpdate in Compile).value
       Seq.empty[File]
     }
   )
-
-def frontendProjectsSetting: Def.Initialize[Seq[ProjectRef]] = Def.setting {
-  val units = loadedBuild.value.units
-  val projects = allProjectRefs(units)
-  for {
-    projectRef <- projects
-    project <- Project.getProject(projectRef, units).toList
-    autoPlugin <- project.autoPlugins if autoPlugin == ScalaJSBundlerPlugin
-  } yield projectRef
-}
-
-def scalaJSProjectsSetting: Def.Initialize[Seq[Project]] = Def.setting {
-  val units = loadedBuild.value.units
-  val projects = scalaJSProjectRefs.value
-  for {
-    projectRef <- projects
-    project <- projectForReference(projectRef, units).toList
-  } yield Project(project.id, project.base)
-}
 
 def projectForReference(ref: Reference, units: Map[URI, LoadedBuildUnit]): Option[ResolvedProject] = {
   ref match {
