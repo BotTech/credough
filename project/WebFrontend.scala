@@ -37,7 +37,7 @@ object WebFrontend extends AutoPlugin {
 
   val autoImport: Keys = Keys
 
-  override val requires: Plugins = ScalaJSBundlerPlugin && ScalaJSPlugin && ScalaJSWeb
+  override val requires: Plugins = ScalaJSBundlerPlugin && ScalaJSPlugin && ScalaJSWeb && ApolloGraphQL
 
   val ignoreWartremoverOptions = Set(
     "-P:wartremover:traverser:org.wartremover.warts.AsInstanceOf",

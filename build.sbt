@@ -16,6 +16,10 @@ import play.sbt.routes.RoutesKeys
  * limitations under the License.
  */
 
+import Dependencies._
+
+logLevel := Level.Debug
+
 lazy val root = (project in file("."))
   .settings(name := "credough")
   .aggregate(
@@ -25,7 +29,6 @@ lazy val root = (project in file("."))
 
 lazy val server = (project in file("server"))
   .enablePlugins(
-    AutomateHeaderPlugin,
     PlayScala,
     WebBackend
   )
@@ -42,7 +45,6 @@ lazy val server = (project in file("server"))
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(
-    AutomateHeaderPlugin,
     WebFrontend
   )
   .settings(
