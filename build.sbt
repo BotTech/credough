@@ -1,3 +1,5 @@
+import play.sbt.routes.RoutesKeys
+
 /*
  * Copyright 2018 BotTech
  *
@@ -23,7 +25,8 @@ lazy val root = (project in file("."))
 
 lazy val server = (project in file("server"))
   .enablePlugins(
-    Play,
+    AutomateHeaderPlugin,
+    PlayScala,
     WebBackend
   )
   .settings(
@@ -33,11 +36,13 @@ lazy val server = (project in file("server"))
       sangriaPlayJson
     ),
     TwirlKeys.templateImports := Nil,
+    RoutesKeys.routesImport := Nil,
     graphqlSchemaSnippet := "models.schema"
   )
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(
+    AutomateHeaderPlugin,
     WebFrontend
   )
   .settings(
