@@ -47,6 +47,3 @@ lazy val ui = (project in file("ui"))
   .enablePlugins(
     WebFrontend
   )
-  .settings(
-    graphQLTypesNamespace := "nz.co.bottech.credough.graphql"
-  )

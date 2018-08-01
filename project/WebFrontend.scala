@@ -32,38 +32,13 @@ object WebFrontend extends AutoPlugin {
   }
 
   object Keys extends Keys
-
-  import Keys._
-
-  val autoImport: Keys = Keys
-
+  
   override val requires: Plugins = ScalaJSBundlerPlugin && ScalaJSPlugin && ScalaJSWeb && ApolloGraphQL
 
-  val ignoreWartremoverOptions = Set(
-    "-P:wartremover:traverser:org.wartremover.warts.AsInstanceOf",
-    "-P:wartremover:traverser:org.wartremover.warts.NonUnitStatements",
-    "-P:wartremover:traverser:org.wartremover.warts.Null"
-  )
-
   override val projectSettings: Seq[Def.Setting[_]] = Seq(
-    libraryDependencies ++= ScalaJS.dependencies.value,
-    // TODO: Remove this when we upgrade to Scala.js 1.x
-    scalacOptions += "-P:scalajs:sjsDefinedByDefault",
-    scalacOptions := scalacOptions.value.filterNot(ignoreWartremoverOptions.contains),
-    // TODO: Is this the best way?
-    scalaJSUseMainModuleInitializer := true,
-    addCompilerPlugin(macroParadise),
-    npmAssetDependencies := npm.assets
   ) ++ inConfig(Compile)(bundlerSettings)
 
   def bundlerSettings: Seq[Def.Setting[_]] = Seq(
-    npmDependencies ++= npm.commonJSModules,
-    npmDependencies ++= npmAssetDependencies.value,
-    npmDependencies ++= npm.apolloClientCommonJSModules,
-    npmDevDependencies += npm.apollo,
-    useYarn := true,
-    // Process only the entrypoints via webpack and produce a library of dependencies.
-    webpackBundlingMode := BundlingMode.LibraryOnly(),
     graphQLApolloCLI := npmUpdate.value / "node_modules" / ".bin" / "apollo"
   )
 }
