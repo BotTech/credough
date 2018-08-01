@@ -6,6 +6,7 @@ logLevel := Level.Debug
 
 val scalaJSProjectRefs = Def.settingKey[Seq[ProjectReference]]("Scala.js projects attached to the sbt-web project")
 val npmAssetDependencies = settingKey[Seq[String]]("NPM asset dependencies (assets that your program uses)")
+val graphQLApolloCLI = Def.taskKey[File]("Path to the apollo CLI")
 
 lazy val root = (project in file("."))
   .aggregate(
@@ -25,10 +26,13 @@ lazy val server = (project in file("server"))
 
 lazy val ui = (project in file("ui"))
   .enablePlugins(
-    ScalaJSBundlerPlugin,
-    ApolloGraphQL
+    ScalaJSBundlerPlugin
   ).settings(
-    graphQLApolloCLI in Compile := (npmUpdate in Compile).value
+    graphQLApolloCLI in Compile := (npmUpdate in Compile).value,
+    sourceGenerators in Compile += Def.task {
+      val _ = (graphQLApolloCLI in Compile).value.getPath
+      Seq.empty[File]
+    }
   )
 
 def frontendProjectsSetting: Def.Initialize[Seq[ProjectRef]] = Def.setting {
@@ -37,7 +41,7 @@ def frontendProjectsSetting: Def.Initialize[Seq[ProjectRef]] = Def.setting {
   for {
     projectRef <- projects
     project <- Project.getProject(projectRef, units).toList
-    autoPlugin <- project.autoPlugins if autoPlugin == ApolloGraphQL
+    autoPlugin <- project.autoPlugins if autoPlugin == ScalaJSBundlerPlugin
   } yield projectRef
 }
 
