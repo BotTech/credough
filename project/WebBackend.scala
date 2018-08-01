@@ -15,11 +15,7 @@
  */
 
 import WebFrontend.Keys._
-import com.typesafe.sbt.digest.Import._
-import com.typesafe.sbt.gzip.Import._
-import com.typesafe.sbt.web.Import._
 import com.typesafe.sbt.web.PathMapping
-import rocks.muki.graphql.GraphQLSchemaPlugin
 import sbt.Keys._
 import sbt._
 import sbt.internal.LoadedBuildUnit
@@ -42,12 +38,9 @@ object WebBackend extends AutoPlugin {
 
   val autoImport: Keys = Keys
 
-  override val requires: Plugins = WebScalaJSBundlerPlugin && GraphQLSchemaPlugin
+  override val requires: Plugins = WebScalaJSBundlerPlugin
 
   override val projectSettings: Seq[Def.Setting[_]] = Seq(
-    Assets / pipelineStages ++= Seq(scalaJSPipeline),
-    pipelineStages ++= Seq(digest, gzip),
-    Compile / compile := (Compile / compile).dependsOn(scalaJSPipeline).value,
     scalaJSProjectRefs := frontendProjectsSetting.value,
     scalaJSProjects := scalaJSProjectsSetting.value,
     npmAssets ++= frontendNpmAssetsTask.value

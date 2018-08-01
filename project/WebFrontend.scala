@@ -32,7 +32,7 @@ object WebFrontend extends AutoPlugin {
   }
 
   object Keys extends Keys
-  
+
   override val requires: Plugins = ScalaJSBundlerPlugin && ScalaJSPlugin && ScalaJSWeb && ApolloGraphQL
 
   override val projectSettings: Seq[Def.Setting[_]] = Seq(
