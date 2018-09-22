@@ -14,9 +14,6 @@
  * limitations under the License.
  */
 
-// Dependency Update Checker
-addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.4")
-
 // OWASP Dependency Check
 addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "0.2.2")
 

@@ -1,5 +1,3 @@
-import play.sbt.routes.RoutesKeys
-
 /*
  * Copyright 2018 BotTech
  *
@@ -15,6 +13,8 @@ import play.sbt.routes.RoutesKeys
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import play.sbt.routes.RoutesKeys
 
 lazy val root = (project in file("."))
   .settings(name := "credough")

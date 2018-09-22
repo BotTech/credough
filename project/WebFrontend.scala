@@ -64,6 +64,6 @@ object WebFrontend extends AutoPlugin {
     useYarn := true,
     // Process only the entrypoints via webpack and produce a library of dependencies.
     webpackBundlingMode := BundlingMode.LibraryOnly(),
-    graphQLApolloCLI := npmUpdate.value / "node_modules" / ".bin" / "apollo"
+    graphQLApolloCLI := npmInstall.value / "node_modules" / ".bin" / "apollo"
   )
 }

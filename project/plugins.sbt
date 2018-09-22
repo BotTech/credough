@@ -20,9 +20,6 @@ addSbtPlugin("org.scalastyle" %% "scalastyle-sbt-plugin" % "1.0.0")
 // Wartremover
 addSbtPlugin("org.wartremover" % "sbt-wartremover" % "2.3.1")
 
-// Dependency Update Checker
-addSbtPlugin("com.timushev.sbt" % "sbt-updates" % "0.3.4")
-
 // OWASP Dependency Check
 addSbtPlugin("net.vonbuchholtz" % "sbt-dependency-check" % "0.2.2")
 
