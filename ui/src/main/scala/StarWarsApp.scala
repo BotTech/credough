@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-import slinky.core.facade.ReactElement
 import slinky.hot
 
 import scala.scalajs.LinkingInfo
+import scala.scalajs.js.undefined
 import scala.scalajs.js.annotation.JSExportTopLevel
+import scala.scalajs.js.Dynamic.global
 
-object Main extends ReactGraphQLApp {
-
-  override def uri: String = "TODO/graphql"
-
-  override def app: ReactElement = HelloApp()
+object StarWarsApp extends ReactGraphQLApp {
 
   @JSExportTopLevel("entrypoint.main")
   def main(args: Array[String]): Unit = {
     if (LinkingInfo.developmentMode) {
       hot.initialize()
     }
-    val _  = renderApp()
+    val graphQLURL = global.environment.controllers.StarWarsController.graphql("", undefined, undefined).toString
+    val graphIQLURL = global.environment.controllers.StarWarsController.graphiql().url.toString
+    val sangriaImageURL = global.environment.controllers.Assets.versioned("images/sip-of-sangria-1.svg").url.toString
+    val props = StarWarsAppComponent.Props(sangriaImageURL, graphIQLURL)
+    val app = StarWarsAppComponent(props)
+    val _  = renderApp(app, graphQLURL)
   }
 }

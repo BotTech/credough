@@ -37,7 +37,8 @@ lazy val server = (project in file("server"))
     ),
     TwirlKeys.templateImports := Nil,
     RoutesKeys.routesImport := Nil,
-    graphqlSchemaSnippet := "models.schema"
+    RoutesKeys.routesImport += "controllers.Assets.Asset",
+    graphqlSchemaSnippet := "models.StarWarsSchemaDefinition.StarWarsSchema"
   )
 
 lazy val ui = (project in file("ui"))

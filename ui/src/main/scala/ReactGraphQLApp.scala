@@ -25,13 +25,9 @@ trait ReactGraphQLApp {
 
   protected def rootElementID: String = "root"
 
-  protected def uri: String
-
-  protected def app: ReactElement
-
-  protected def renderApp(): ReactInstance = {
+  protected def renderApp(app: ReactElement, graphQLURI: String): ReactInstance = {
     val container = root().getOrElse(createRoot())
-    val client = ApolloBoostClient(uri)
+    val client = ApolloBoostClient(graphQLURI)
     val wrapped = ApolloProvider(client)(app)
     ReactDOM.render(wrapped, container)
   }

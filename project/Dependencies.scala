@@ -22,17 +22,21 @@ trait Dependencies {
   object Versions {
 
     // TODO: What about dependency updates plugin for npm modules?
-    val apollo = "1.6.0"
-    val apolloBoost = "0.1.12"
+    val aceCodeEditor = "1.2.3"
+    val apollo = "1.9.2"
+    val apolloBoost = "0.1.16"
+    val apolloClient = "2.4.2"
     val bloomer = "0.6.3"
-    val bulma = "0.6.2"
+    val bulma = "0.7.1"
+    // TODO: What about react-fontAwesome
     val fontAwesome = "4.7.0"
+    // FIXME: apollo-boost needs to be updated to graphQL 14
     val graphQL = "0.13.2"
     val graphQLTag = "2.9.2"
     val macroParadise = "3.0.0-M11"
     val macwire = "2.3.1"
-    val react = "16.2.0"
-    val reactApollo = "2.1.9"
+    val react = "16.5.2"
+    val reactApollo = "2.1.11"
     val reactApolloScalaJS = "0.4.0"
     val reactProxy = "1.1.8"
     val sangria = "1.4.1"
@@ -65,6 +69,7 @@ trait Dependencies {
   val sangria = "org.sangria-graphql" %% "sangria" % Versions.sangria
   val sangriaPlayJson = "org.sangria-graphql" %% "sangria-play-json" % Versions.sangriaPlayJson
 
+  // TODO: Move these to WebDependencies
   object Npm {
 
     sealed trait NpmDependency {
@@ -79,8 +84,10 @@ trait Dependencies {
     case class CommonJSModule(name: String, version: String) extends NpmDependency
     case class Assets(name: String, version: String, assets: File => PathFinder = _.allPaths) extends NpmDependency
 
+    val aceCodeEditor = CommonJSModule("ace-code-editor", Versions.aceCodeEditor)
     val apollo = CommonJSModule("apollo", Versions.apollo)
     val apolloBoost = CommonJSModule("apollo-boost", Versions.apolloBoost)
+    val apolloClient = CommonJSModule("apollo-client", Versions.apolloClient)
     val bloomer = CommonJSModule("bloomer", Versions.bloomer)
     val bulma = CommonJSModule("bulma", Versions.bulma)
     val graphQL = CommonJSModule("graphql", Versions.graphQL)
@@ -93,12 +100,14 @@ trait Dependencies {
     // TODO: These should be in the GraphQL plugin.
     val apolloClientCommonJSModules = Seq(
       apolloBoost,
+      apolloClient,
       reactApollo,
       graphQL,
       graphQLTag
     )
 
     val commonJSModules = Seq(
+      aceCodeEditor,
       bloomer,
       bulma,
       react,

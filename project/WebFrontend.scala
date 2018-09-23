@@ -50,7 +50,6 @@ object WebFrontend extends AutoPlugin {
     // TODO: Remove this when we upgrade to Scala.js 1.x
     scalacOptions += "-P:scalajs:sjsDefinedByDefault",
     scalacOptions := scalacOptions.value.filterNot(ignoreWartremoverOptions.contains),
-    // TODO: Is this the best way?
     scalaJSUseMainModuleInitializer := true,
     addCompilerPlugin(macroParadise),
     npmAssetDependencies := npm.assets

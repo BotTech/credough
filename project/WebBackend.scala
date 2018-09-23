@@ -19,6 +19,7 @@ import com.typesafe.sbt.digest.Import._
 import com.typesafe.sbt.gzip.Import._
 import com.typesafe.sbt.web.Import._
 import com.typesafe.sbt.web.PathMapping
+import play.sbt.routes.RoutesKeys._
 import rocks.muki.graphql.GraphQLSchemaPlugin
 import sbt.Keys._
 import sbt._
@@ -26,6 +27,7 @@ import sbt.internal.LoadedBuildUnit
 import scalajsbundler.sbtplugin.ScalaJSBundlerPlugin.autoImport._
 import scalajsbundler.sbtplugin.WebScalaJSBundlerPlugin
 import scalajsbundler.sbtplugin.WebScalaJSBundlerPlugin.autoImport._
+import wartremover._
 import webscalajs.WebScalaJS.autoImport._
 
 object WebBackend extends AutoPlugin {
@@ -48,6 +50,8 @@ object WebBackend extends AutoPlugin {
     Assets / pipelineStages ++= Seq(scalaJSPipeline),
     pipelineStages ++= Seq(digest, gzip),
     Compile / compile := (Compile / compile).dependsOn(scalaJSPipeline).value,
+    wartremoverExcluded ++= (Compile / routes).value,
+    wartremoverExcluded += sourceManaged.value / "sbt-sangria-codegen" / "SchemaGen.scala",
     scalaJSProjectRefs := frontendProjectsSetting.value,
     scalaJSProjects := scalaJSProjectsSetting.value,
     npmAssets ++= frontendNpmAssetsTask.value

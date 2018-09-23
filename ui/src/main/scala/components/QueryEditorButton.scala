@@ -14,23 +14,29 @@
  * limitations under the License.
  */
 
-import slinky.core.StatelessComponent
+package components
+
 import slinky.core.annotations.react
 import slinky.core.facade.ReactElement
+import slinky.core.{CustomAttribute, StatelessComponent}
 import slinky.web.html._
 
-@react class HelloApp extends StatelessComponent {
+@react class QueryEditorButton extends StatelessComponent {
 
-  type Props = Unit
+  case class Props(text: String, section: String, expanded: Boolean)
+
+  val dataToggle = new CustomAttribute[String]("data-toggle")
+  val dataTarget = new CustomAttribute[String]("data-target")
+  val ariaExpanded = new CustomAttribute[Boolean]("aria-expanded")
+  val ariaControls = new CustomAttribute[String]("aria-controls")
 
   override def render(): ReactElement = {
-    div(className := "App")(
-      header(className := "App-header")(
-        h1(className := "App-title")("Welcome to React (with Scala.js!)")
-      ),
-      p(className := "App-intro")(
-        "To get started, edit ", code("HelloApp.scala"), " and save to reload."
-      )
+    a(className := "btn",
+      dataToggle := "collapse",
+      dataTarget := s"#${props.section}",
+      ariaExpanded := props.expanded,
+      ariaControls := props.section)(
+      props.text
     )
   }
 }
